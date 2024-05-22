@@ -12,6 +12,7 @@ const fetchData = async () => {
     return data1; // Return the fetched data
   } catch (err) {
     console.error('Error fetching data:', err);
+    alert('Failed to fetch data'); // Display alert message on failed data fetch
     return []; // Return an empty array in case of error
   }
 };
@@ -19,6 +20,10 @@ const fetchData = async () => {
 const PaginatedTable = ({ data }) => { // Receive data as a prop
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
+
+  useEffect(() => {
+    setCurrentPage(1); // Reset currentPage to 1 whenever data changes
+  }, [data]);
 
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
@@ -64,7 +69,7 @@ const PaginatedTable = ({ data }) => { // Receive data as a prop
         <button onClick={handlePrevious} disabled={currentPage === 1}>
           Previous
         </button>
-        <span> {currentPage} </span>
+        <span>{currentPage}</span>
         <button onClick={handleNext} disabled={currentPage === totalPages}>
           Next
         </button>
